@@ -1,0 +1,6 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ESP32 Temperature</title>
+<style>body{font-family:system-ui;max-width:600px;margin:4rem auto;padding:1rem;background:#f4f7fb;color:#172033}.card{background:white;border-radius:16px;padding:2rem;box-shadow:0 8px 30px #0001}.temp{font-size:5rem;font-weight:700;color:#1769e0}small{color:#667085}</style></head>
+<body><div class="card"><h1>ESP32 Temperature</h1><div class="temp"><span id="temperature">--</span>°C</div><p>Device: <span id="device">Waiting for data…</span></p><small>Last received: <span id="time">—</span></small></div>
+<script>async function update(){try{const d=await fetch('/api/temperature').then(r=>r.json());if(d.temperature!==null){temperature.textContent=Number(d.temperature).toFixed(2);device.textContent=d.device_id;time.textContent=new Date(d.received_at).toLocaleString()}}catch(e){}}update();setInterval(update,3000)</script></body></html>
