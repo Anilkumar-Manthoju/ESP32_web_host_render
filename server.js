@@ -41,6 +41,20 @@ app.post('/api/temperature', (req, res) => {
     res.json({ ok: true, data: latest });
 });
 
-app.get('/api/temperature', (_req, res) => res.json(latest || { temperature: null }));
+// app.get('/api/temperature', (_req, res) => res.json(latest || { temperature: null }));
+
+	app.get('/api/temperature', (_req, res) => {
+		// If we have received data, extract the value cleanly and return it at root level
+		if (latest) {
+			return res.json({ 
+				temperature: latest.temperature,
+				device_id: latest.device_id,
+				received_at: latest.received_at
+			});
+		}
+		
+		// Default fallback structural layout if no data has arrived yet
+		res.json({ temperature: null });
+	});
 
 app.listen(port, '0.0.0.0', () => console.log(`Temperature dashboard: http://localhost:${port}`));
